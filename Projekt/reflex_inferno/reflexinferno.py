@@ -106,8 +106,6 @@ title_animation_timer = 0
 
 # Add multiplayer mode
 multiplayer_mode = False
-player2_color = RED
-player2_size = player_size
 player2_x = WIDTH // 2 - player_size // 2
 player2_y = HEIGHT // 2 - player_size // 2
 
@@ -525,6 +523,24 @@ def save_player_data():
     except Exception as e:
         print(f"Error saving player data: {e}")
 
+def reset_player_positions():
+    """Reset both players to center position"""
+    global player_x, player_y, player2_x, player2_y
+    player_x = WIDTH // 2 - player_size // 2
+    player_y = HEIGHT // 2 - player_size // 2
+    player2_x = WIDTH // 2 - player_size // 2
+    player2_y = HEIGHT // 2 - player_size // 2
+
+def set_level_difficulty(level):
+    """Set bullet speed and spawn delay based on level"""
+    global bullet_speed, bullet_spawn_delay
+    if level == 1:
+        bullet_speed, bullet_spawn_delay = 3, 400
+    elif level == 2:
+        bullet_speed, bullet_spawn_delay = 3.5, 300
+    elif level == 3:
+        bullet_speed, bullet_spawn_delay = 4, 250
+
 # Main loop
 running = True
 
@@ -590,43 +606,21 @@ while running:
                     multiplayer_mode = False
                     game_state = PLAYING
                     # Reset game state
-                    player_x = WIDTH // 2 - player_size // 2
-                    player_y = HEIGHT // 2 - player_size // 2
-                    player2_x = WIDTH // 2 - player_size // 2
-                    player2_y = HEIGHT // 2 - player_size // 2
+                    reset_player_positions()
                     score = 0
                     start_ticks = pygame.time.get_ticks()
                     bullets.clear()
-                    if current_level == 1:
-                        bullet_speed = 3
-                        bullet_spawn_delay = 400
-                    elif current_level == 2:
-                        bullet_speed = 3.5
-                        bullet_spawn_delay = 300
-                    elif current_level == 3:
-                        bullet_speed = 4
-                        bullet_spawn_delay = 250
+                    set_level_difficulty(current_level)
                     load_music(current_level)
                 elif event.key == pygame.K_m:
                     multiplayer_mode = True
                     game_state = PLAYING
                     # Reset game state
-                    player_x = WIDTH // 2 - player_size // 2
-                    player_y = HEIGHT // 2 - player_size // 2
-                    player2_x = WIDTH // 2 - player_size // 2
-                    player2_y = HEIGHT // 2 - player_size // 2
+                    reset_player_positions()
                     score = 0
                     start_ticks = pygame.time.get_ticks()
                     bullets.clear()
-                    if current_level == 1:
-                        bullet_speed = 3
-                        bullet_spawn_delay = 400
-                    elif current_level == 2:
-                        bullet_speed = 3.5
-                        bullet_spawn_delay = 300
-                    elif current_level == 3:
-                        bullet_speed = 4
-                        bullet_spawn_delay = 250
+                    set_level_difficulty(current_level)
                     load_music(current_level)
         elif game_state == PLAYING:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
@@ -683,21 +677,13 @@ while running:
                                 multiplayer_selection_step = 1
                                 
                                 game_state = PLAYING
-                                player_x = WIDTH // 2 - player_size // 2
-                                player_y = HEIGHT // 2 - player_size // 2
-                                player2_x = WIDTH // 2 - player_size // 2
-                                player2_y = HEIGHT // 2 - player_size // 2
+                                reset_player_positions()
                                 score = 0
                                 xp_gained = 0
                                 start_ticks = pygame.time.get_ticks()
                                 bullets.clear()
                                 
-                                if current_level == 1:
-                                    bullet_speed, bullet_spawn_delay = 3, 400
-                                elif current_level == 2:
-                                    bullet_speed, bullet_spawn_delay = 3.5, 300
-                                elif current_level == 3:
-                                    bullet_speed, bullet_spawn_delay = 4, 250
+                                set_level_difficulty(current_level)
                                 load_music(current_level)
                         else:
                             # Single player - start immediately
@@ -708,21 +694,13 @@ while running:
                             save_player_data()
                             
                             game_state = PLAYING
-                            player_x = WIDTH // 2 - player_size // 2
-                            player_y = HEIGHT // 2 - player_size // 2
-                            player2_x = WIDTH // 2 - player_size // 2
-                            player2_y = HEIGHT // 2 - player_size // 2
+                            reset_player_positions()
                             score = 0
                             xp_gained = 0
                             start_ticks = pygame.time.get_ticks()
                             bullets.clear()
                             
-                            if current_level == 1:
-                                bullet_speed, bullet_spawn_delay = 3, 400
-                            elif current_level == 2:
-                                bullet_speed, bullet_spawn_delay = 3.5, 300
-                            elif current_level == 3:
-                                bullet_speed, bullet_spawn_delay = 4, 250
+                            set_level_difficulty(current_level)
                             load_music(current_level)
 
     # Game logic and rendering
@@ -750,8 +728,8 @@ while running:
             # Keep both players on screen
             player_x = max(0, min(WIDTH - player_size, player_x))
             player_y = max(0, min(HEIGHT - player_size, player_y))
-            player2_x = max(0, min(WIDTH - player2_size, player2_x))
-            player2_y = max(0, min(HEIGHT - player2_size, player2_y))
+            player2_x = max(0, min(WIDTH - player_size, player2_x))
+            player2_y = max(0, min(HEIGHT - player_size, player2_y))
         else:
             # Single player: WASD or arrows
             if keys[pygame.K_w] or keys[pygame.K_UP]:
@@ -791,7 +769,7 @@ while running:
             # Check collision with player
             if multiplayer_mode:
                 if check_collision(player_x, player_y, player_size, bullet['x'], bullet['y'], bullet.get('size', 6)) or \
-                   check_collision(player2_x, player2_y, player2_size, bullet['x'], bullet['y'], bullet.get('size', 6)):
+                   check_collision(player2_x, player2_y, player_size, bullet['x'], bullet['y'], bullet.get('size', 6)):
                     game_state = GAME_OVER
                     load_game_over_music()
                     break
