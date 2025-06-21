@@ -173,6 +173,20 @@ def stop_music():
     pygame.mixer.music.stop()
     current_music = None
 
+def play_death_sound():
+    """Play death sound effect"""
+    try:
+        death_sound_path = os.path.join("assets", "music", "death_sound.mp3")
+        if os.path.exists(death_sound_path):
+            # Load and play death sound as a sound effect (not music)
+            death_sound = pygame.mixer.Sound(death_sound_path)
+            death_sound.set_volume(0.7)  # Set volume for sound effect
+            death_sound.play()
+        else:
+            print(f"Death sound file not found: {death_sound_path}")
+    except Exception as e:
+        print(f"Error playing death sound: {e}")
+
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, True, color)
     textrect = textobj.get_rect(center=(x, y))
@@ -772,11 +786,13 @@ while running:
                    check_collision(player2_x, player2_y, player_size, bullet['x'], bullet['y'], bullet.get('size', 6)):
                     game_state = GAME_OVER
                     load_game_over_music()
+                    play_death_sound()
                     break
             else:
                 if check_collision(player_x, player_y, player_size, bullet['x'], bullet['y'], bullet.get('size', 6)):
                     game_state = GAME_OVER
                     load_game_over_music()
+                    play_death_sound()
                     break
         
         # Draw bullets
