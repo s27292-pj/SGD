@@ -1,0 +1,13 @@
+{
+  "level": 4,
+  "xp": 782,
+  "xp_to_next_level": 1000,
+  "unlocked_skins": [
+    "default.png",
+    "cow.png",
+    "enderman.png",
+    "pig.png"
+  ],
+  "player1_skin": "default.png",
+  "player2_skin": "enderman.png"
+}

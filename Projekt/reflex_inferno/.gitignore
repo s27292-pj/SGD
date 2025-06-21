@@ -1,0 +1,8 @@
+# Virtual environment
+venv/
+
+# Backup file
+BACKUP.py
+
+# OS files
+.DS_Store 
