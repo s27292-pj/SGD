@@ -1,4 +1,22 @@
-# Funkcjonalności
+Daniel Bieliński s27292
+
+# Mini prezentacja
+
+## Reflex inferno - Gra w stylu bullet hell / touhou
+
+
+RefleX Inferno to dynamiczna gra zręcznościowa typu "bullet hell" stworzona w Pythonie z użyciem biblioteki Pygame. Gracz musi unikać kolorowych pocisków poruszających się po ekranie, wykorzystując swoje refleksy i umiejętności strategiczne.
+
+## Jak Grać
+1. Start: Naciśnij SPACJĘ na ekranie powitalnym
+2. Menu: Wybierz poziom (1-3) lub tryb gry
+3. Wybór skina: Przejdź przez dostępne skiny (A/D)
+4. Gra: Unikaj kolorowych pocisków jak najdłużej
+5. Pauza: Naciśnij P w trakcie gry
+6. Restart: Naciśnij R po przegranej
+7. Sterowanie dźwiękiem: [m = mute, (-) = volume down, (+) = volume up]
+
+# Funkcjonalności (17)
 
 ### Sterowanie i interakcja
 - obsługa klawiatury - ruchy postaci, ruchy w menu
