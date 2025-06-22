@@ -762,11 +762,11 @@ while running:
         if now - bullet_spawn_timer > bullet_spawn_delay:
             spawn_bullet()
             bullet_spawn_timer = now
-            # Increase difficulty over time - more aggressive
-            bullet_spawn_delay = max(bullet_spawn_delay_min, bullet_spawn_delay - 3)  # Faster decrease
-            # Increase bullet speed every 10 seconds (faster progression)
-            if (now - start_ticks) % 10000 < 100:
-                bullet_speed += 0.5  # Larger speed increase
+        
+        # Increase difficulty every 10 seconds
+        if (now - start_ticks) % 10000 < 100:
+            bullet_speed += 0.5
+            bullet_spawn_delay = max(bullet_spawn_delay_min, bullet_spawn_delay - 100)  # Decrease by 10ms every 10 seconds
         
         # Update bullets
         for bullet in bullets[:]:
